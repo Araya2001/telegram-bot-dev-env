@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  ## PERCONA SERVER ##
+  percona:
+    container_name: tb_bot_percona
+    image: "percona/percona-server:8.0.27-18"
+    environment:
+      MYSQL_ROOT_PASSWORD: "BCdyMaJYELAKCapWU2XU"
+      TZ: "America/Costa_Rica"
+    cap_add:
+      - SYS_NICE
+    ports:
+      - "3307:3306"
+    volumes:
+      - "tg_bot_percona_data:/var/lib/mysql"
+      - "./my-conf/:/etc/my.cnf.d/"
+    networks:
+      - tg-bot-net
+    restart: unless-stopped
+
+networks:
+  tg-bot-net:
+    driver: bridge
+
+volumes:
+  tg_bot_percona_data:
+    driver: local
